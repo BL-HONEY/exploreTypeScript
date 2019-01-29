@@ -1,0 +1,34 @@
+{
+    "companies": [
+        {
+            "name": "ilink",
+            "symbol": "il",
+            "price": 10
+        },
+        {
+            "name": "honeywell",
+            "symbol": "hw",
+            "price": 123
+        },
+        {
+            "name": "treksystems",
+            "symbol": "ts",
+            "price": 567
+        },
+        {
+            "name": "honeyworks",
+            "symbol": "hwo",
+            "price": "45"
+        },
+        {
+            "name": "bridgelabz",
+            "symbol": "bz",
+            "price": "230"
+        },
+        {
+            "name": "yatra",
+            "symbol": "yt",
+            "price": "34343"
+        }
+    ]
+}

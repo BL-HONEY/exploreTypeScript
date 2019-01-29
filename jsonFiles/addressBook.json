@@ -1,0 +1,41 @@
+{
+    "users": [
+        {
+            "firstname": "hkriti",
+            "lastname": "patil",
+            "address": "987,vegas",
+            "city": "bluecity",
+            "state": "broklyn",
+            "zipcode": "765809",
+            "contact": "7649120945"
+        },
+        {
+            "firstname": "bhoney",
+            "lastname": "kumar",
+            "address": "house no. 63 , sector 2 , vashi",
+            "city": "Mumbai",
+            "state": "Maharastra",
+            "zipcode": "900088",
+            "contact": 6376713999
+        },
+        {
+            "firstname": "akshaya",
+            "lastname": "MI",
+            "address": "334,r9 , vashi",
+            "city": "mumbai",
+            "state": "maharastra",
+            "zipcode": "303021",
+            "contact": "9876908712"
+        },
+        {},
+        {
+            "firstname": "yash",
+            "lastname": "mathur",
+            "address": "vashi",
+            "city": "mumbai",
+            "state": "maharastra",
+            "zipcode": "761290",
+            "contact": "9867091232"
+        }
+    ]
+}

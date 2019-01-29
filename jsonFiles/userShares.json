@@ -1,0 +1,18 @@
+{
+    "users": [
+        {
+            "name": "honey",
+            "amount": 56,
+            "symbol": "il",
+            "bought": 5,
+            "time": "2019-1-10 09:01:50"
+        },
+        {
+            "name": "yash mathur",
+            "amount": 0,
+            "symbol": "il",
+            "bought": 0,
+            "time": "2019-1-28 16:51:35"
+        }
+    ]
+}
