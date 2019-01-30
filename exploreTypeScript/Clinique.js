@@ -1,46 +1,113 @@
-"use strict";
 var utility = require('../Utility/Utility');
 var utility = new utility();
 var fs = require("fs");
+/**
+ * @description class Clinique
+ *
+ * @class Clinique
+ * @purpose This programme is used to manage a list of
+ *  Doctors associated with the Clinique. This also manages the list of patients who use the
+ *   clinique.
+ */
 var Clinique = /** @class */ (function () {
     function Clinique() {
+        /**
+         * instance member pName of string type
+         * @access private
+         */
         this.pName = "";
+        /**
+         * instance member phoneNumber of number type
+         * @access private
+         */
         this.phoneNumber = 0;
+        /**
+         * instance member pAge of number type
+         * @access private
+         */
         this.pAge = 0;
     }
+    /**
+     * @description getter function to return patient name
+     * @returns {string} patient's name
+     */
     Clinique.prototype.getPatientName = function () {
         return this.pName;
     };
+    /**
+     * @description setter function to set value of patient name
+     * @param {string} pName
+     */
     Clinique.prototype.setPatientName = function (pName) {
         this.pName = pName;
     };
+    /**
+     * @description getter function to return patient's phone number
+     * @returns {string} patient's phone number
+     */
     Clinique.prototype.getPatientPhoneNum = function () {
         return this.phoneNumber;
     };
+    /**
+     * @description setter function to set phone number of patient
+     * @param {number} phoneNum
+     */
     Clinique.prototype.setPatientPhoneNum = function (phoneNum) {
         this.phoneNumber = phoneNum;
     };
+    /**
+     * @description getter function to return patient name
+     * @returns {string} patient's name
+     */
     Clinique.prototype.getPatientAge = function () {
         return this.pAge;
     };
+    /**
+     * @description setter function to set patient's age
+     * @param age
+     */
     Clinique.prototype.setPatientAge = function (age) {
         this.pAge = age;
     };
+    /**
+     * @description member function to register a new visiting Patieent
+     */
     Clinique.prototype.registerPatient = function () {
+        /** read patient file */
         var patientData = utility.getDataFromJson3('patient');
+        /** variable to get number of patients already registered */
         var size = patientData.size;
         console.log("\n Please , Enter your name: ");
-        var uname = utility.getString();
-        console.log("Enter your phone number: ");
-        var phoneNum = utility.getInteger();
-        console.log("Enter your age: ");
-        var uAge = utility.getInteger();
-        this.setPatientName(uname);
-        this.setPatientPhoneNum(phoneNum);
-        this.setPatientAge(uAge);
         try {
+            /** varaible to store patient's name  */
+            var uname = utility.getString();
+            if (uname = "")
+                throw "name required , empty strinf found";
+            console.log("Enter your phone number: ");
+            /** variable to store patient's phone number */
+            var phoneNum = utility.getInteger();
+            console.log("length: ", phoneNum.toString().length);
+            // if(phoneNum.toString.length != 10)throw "Phone number must be of 10 digits"
+            if (phoneNum.toString() == "")
+                throw "Phone number expected";
+            console.log("Enter your age: ");
+            /** varaible to store patient's age */
+            var uAge = utility.getInteger();
+            /**
+             * calling setter function to set patient details
+             */
+            this.setPatientName(uname);
+            this.setPatientPhoneNum(phoneNum);
+            this.setPatientAge(uAge);
+            /**
+             * exception handling
+             */
+            /** check if phoneNUm and uAge is valid */
             if (isNaN(phoneNum) || isNaN(uAge))
                 throw "Invalid input , Please Try again !";
+            /**
+             * create patient data , further to be stored in json
+             */
             var patient = {
                 name: this.getPatientName(),
                 id: size,
@@ -48,12 +115,18 @@ var Clinique = /** @class */ (function () {
                 age: this.getPatientAge(),
                 doc: " "
             };
+            /** push patient's data to json */
             patientData.patients.push(patient);
+            /** Increase sixe as one new patient has been registered */
             patientData.size++;
+            /** call function to update details  */
             this.updatePatient(patientData);
             console.log("\n Do you want to send a request to book an appointment ? ");
+            /** store user reply in a variable(reply) */
             var reply = utility.getString();
+            /** validate user's reply */
             if (reply.startsWith('y') || reply.startsWith('Y')) {
+                /** call function if reply is yes */
                 this.selectDoctor(Number(size));
             }
             else {
@@ -62,25 +135,44 @@ var Clinique = /** @class */ (function () {
         }
         catch (err) {
             console.log(err);
+            /** call registerPatient() in case of an error */
             this.registerPatient();
         }
     };
+    /**
+     * @description function to ask user which of the available doctor he needs
+     * @param {number} pId
+     */
     Clinique.prototype.selectDoctor = function (pId) {
+        /** call function to display all doctors */
         this.displayAllDoctors();
+        /** store docotors data in docData */
         var docData = utility.getDataFromJson3('doc');
         console.log("Choose a Doctor using his/her ID as per your need: ");
+        /** Ask user for doctor ID */
         var docID = utility.getInteger();
+        /**
+          * exception handling
+          */
         try {
+            /** check if doctor ID is a valid number type */
             if (isNaN(docID))
                 throw "Invalid Doctor ID , Choose only from available doctors";
+            /** check if doctor is a valid one or not */
             if (docID > docData.doctors.length)
                 throw "Entered ID is incorrect , Choose only from the available options ";
+            /** Ask user for an appointment date */
             console.log("When do you wish to visit him/her? Please enter a Date(DD/MM/YY): ");
+            /** data variable to store appointment date */
             var date = utility.getString();
+            /** validating date format */
             if (!/\d\d\/\d\d\/\d\d/.test(date))
                 throw "Date format is incorrect , Please enter a Date(DD/MM/YY)";
+            /** checking availabitlity of the doctor */
             if (this.checkAvailability(docID, date)) {
+                /** Telling user about doctor's availabilty and asking to confirm booking appointment*/
                 console.log("Doctor is available.. want to book an appointment? ");
+                /** storing  */
                 var reply = utility.getString();
                 var dName = this.getDoctorName(docID);
                 if (reply.startsWith('y') || reply.startsWith('Y')) {
@@ -100,35 +192,63 @@ var Clinique = /** @class */ (function () {
             this.selectDoctor(pId);
         }
     };
+    /**
+     * @description function to  book an appointment for the patient
+     * @param {number} pId
+     * @param {number} dId
+     * @param {string} dName
+     * @param {string} date
+     */
     Clinique.prototype.bookAppointment = function (pId, dId, dName, date) {
+        /** read doctor file */
         var docData = utility.getDataFromJson3('doc');
+        /** read patient file */
         var patientData = utility.getDataFromJson3('pat');
+        console.log("patientdata is : ", patientData);
+        console.log("patient ID: ", pId);
+        /** checking doctor reserved dates */
         if (!docData.doctors[dId - 1].appointments.test.includes(date)) {
             docData.doctors[dId - 1].appointments[date] = [];
         }
         docData.doctors[dId - 1].appointments[date].push(pId);
         docData.doctors[dId - 1].appointments.test.push(date);
-        patientData.patients[pId - 1].docData = "Dr. " + dName + " on " + date;
+        /** storing appointed doctor info to patient file */
+        patientData.patients[pId - 1].doc = "Dr. " + dName + " on " + date;
+        /** writing to doctor file */
         fs.writeFileSync('../jsonFiles/Doctors.json', JSON.stringify(docData));
+        /** writing to patient file */
         fs.writeFileSync('../jsonFiles/Patients.json', JSON.stringify(patientData));
         console.log("You appointment have been booked successful !\nDate: " + date);
     };
+    /**
+     * @description function to update patient file
+     * @param data
+     */
     Clinique.prototype.updatePatient = function (data) {
         fs.writeFileSync('../jsonFiles/Patients.json', JSON.stringify(data));
     };
+    /**
+     * @description get doctor's name
+     * @param id {number}
+     */
     Clinique.prototype.getDoctorName = function (id) {
         var docData = utility.getDataFromJson3('doc');
         return docData.doctors[id - 1].name;
     };
+    /**
+     * @description function to ask user's purpose
+     */
     Clinique.prototype.purposeUser = function () {
         var data = this.displayAllPatients();
         console.log("Hello User! Choose concerned patient ID if you want to change or previous appointment taken");
         var patientID = utility.getInteger();
         try {
+            /** validating patient ID */
             if (isNaN(patientID))
                 throw "Invalid Patient ID , Please , Choose registered one only";
             if (patientID > data)
                 throw "Invalid Patient ID , Please , Choose registered one only";
+            /** calling fucntion to select doctor */
             this.selectDoctor(Number(patientID));
         }
         catch (err) {
@@ -136,8 +256,15 @@ var Clinique = /** @class */ (function () {
             this.purposeUser();
         }
     };
+    /**
+     * @description checking whether the doctor is avialable on a particular date
+     * @param id {number}
+     * @param date {number}
+     */
     Clinique.prototype.checkAvailability = function (id, date) {
+        /** read doctor file */
         var docData = utility.getDataFromJson3('doc');
+        /** checking doctor's availability */
         if (!docData.doctors[id - 1].appointments.test.includes(date)) {
             return true;
         }
@@ -148,6 +275,9 @@ var Clinique = /** @class */ (function () {
             return false;
         }
     };
+    /**
+     * @description function to display all doctors
+     */
     Clinique.prototype.displayAllDoctors = function () {
         // Reading Doctors file.
         var d = utility.getDataFromJson3('doc');
@@ -157,7 +287,12 @@ var Clinique = /** @class */ (function () {
             console.log(d.doctors[i].id + ". " + d.doctors[i].name + " (" + d.doctors[i].special + ")");
         }
     };
+    /**
+     * @description fucntion to display all registered patients
+     * @returns {number} number of patients
+     */
     Clinique.prototype.displayAllPatients = function () {
+        /** reading patient file */
         var data = utility.getDataFromJson3('pat');
         for (var index = 0; index < data.size - 1; index++) {
             console.log(data.patients[index].id + ". " + data.patients[index].name + "  " + data.patients[index].age +
@@ -167,27 +302,35 @@ var Clinique = /** @class */ (function () {
     };
     return Clinique;
 }());
+/** creating one clinique type object */
 var clinique = new Clinique();
+/**
+ * @description function for user Input procedure
+ */
 function userInput() {
     console.log("*******Welcome to PUBLIC CLINIQUE*******\n");
+    /** asking if the viewer is patient or user */
     console.log("Already registered? Choose User else go for Patient \n");
     console.log("\n1. Patient \n2. User\n");
+    /** storing viewer's reply in reply variable  */
     var reply = utility.getInteger();
     try {
-        if (reply < 1 && reply > 2)
-            throw "Invalid input , Choose between 1 and 2";
-        if (reply == "" || isNaN(reply))
+        if (reply == "")
             throw "No input found , Choose between 1 and 2";
         if (reply == '1') {
+            /** calling registerPatient() if reply is patient */
             clinique.registerPatient();
         }
         else {
+            /**calling purposeUser() if viewer is a user */
             clinique.purposeUser();
         }
     }
     catch (err) {
         console.log(err);
+        /** in case of any exception call userInput()  */
         userInput();
     }
 }
+/** calling function to execute the code */
 userInput();

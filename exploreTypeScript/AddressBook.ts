@@ -1,121 +1,257 @@
+/** requiring utility class */
 var utility = require('../Utility/Utility');
+
+/** including file sysytem module */
 var fs = require("fs");
 
+/** create obejct of utility class */
 var utility = new utility();
 
+/***************************************************************************** 
+* 
+*  Purpose         : a program that can be used to maintain an address book. An address book
+*                    holds a collection of entries, each recording a person's first and last names, address, city, state, zip, and
+*                    phone number.
+* 
+*  @description    
+* 
+*  @file           : AddressBook.ts
+*  @overview       : a program that can be used to maintain an address book. An address book
+*                    holds a collection of entries, each recording a person's first and last names, address, city, state, zip, and
+*                    phone number.
+*
+*  @author         : Honey 
+*  @version        : 1.0
+*  @since          : 28-01-2019
+*
+******************************************************************************/
+/**
+ * @description class AddressBook
+ * 
+ * @class AddressBook
+ * @purpose This programme to maintain an address book. An address book
+ * holds a collection of entries, each recording a person's first and last names, address, city, state, zip, and
+ * phone number.
+ */
 class AddressBook {
 
+    /**
+     * instance member firstName of string type 
+     * @access private
+     */
     private firstName: string = "";
+
+    /**
+     * instance member lastName of string type 
+     * @access private
+     */
     private lastName: string = "";
+
+    /**
+    * instance member addess of string type 
+    * @access private
+    */
     private address: string = "";
+
+    /**
+    * instance member city of string type 
+    * @access private
+    */
     private city: string = "";
+
+    /**
+    * instance member state of string type 
+    * @access private
+    */
     private state: string = "";
+
+    /**
+    * instance member zipcode of string type 
+    * @access private
+    */
     private zipcode: string = "";
+
+    /**
+    * instance member phoneNumber of string type 
+    * @access private
+    */
     private phoneNumber: string = "";
 
     constructor() { };
 
-    getFirstName() {
+    /**
+     * @description getter function to return first name
+     * @returns {string} first name
+     */
+    getFirstName(): string {
         return this.firstName;
     }
 
+    /**
+     * @description setter fucntion to set firstname
+     * @param {string} firstName 
+     */
     setFirstName(firstName: string) {
 
         this.firstName = firstName;
 
     }
 
-    getLastName() {
+    /**
+     * @description getter function to return last name
+     * @returns {string} last name
+     */
+    getLastName(): string {
         return this.lastName;
     }
 
+    /**
+     * @description setter function to set last name
+     * @param {string} lastName 
+     */
     setLastName(lastName: string) {
-
         this.lastName = lastName;
-
     }
 
-    getAddress() {
+    /**
+     * @description getter function to return address
+     * @returns {string} address
+     */
+    getAddress(): string {
         return this.address;
     }
 
+    /**
+     * @description setter function set address
+     * @param {string} address 
+     */
     setAddress(address: string) {
-
         this.address = address;
-
     }
 
-    getCity() {
-
+    /**
+     * @description getter function to return city 
+     * @returns {string} city
+     */
+    getCity(): string {
         return this.city;
-
     }
 
+    /**
+     * @description setter function set city
+     * @param {string} city 
+     */
     setCity(city: string) {
-
         this.city = city;
     }
 
-    getState() {
-
+    /**
+     * @description getter function to return state
+     * @returns {string} state
+     */
+    getState(): string {
         return this.state;
     }
 
+    /**
+     * @description setter function to set state
+     * @param {string} state 
+     */
     setState(state: string) {
-
         this.state = state;
     }
 
-    getZipcode() {
-
+    /**
+     * @description getter function to return zipcode
+     * @returns {string} zipcode
+     */
+    getZipcode(): string {
         return this.zipcode;
     }
 
+    /**
+     * @description setter function to set zipcode
+     * @param {number} zipcode 
+     */
     setZipcode(zipcode: string) {
-
         this.zipcode = zipcode;
     }
 
-    getPhoneNumber() {
-
+    /**
+     * @description getter function to return phone number
+     * @returns {string} phone number
+     */
+    getPhoneNumber(): string {
         return this.phoneNumber;
     }
 
+    /**
+     * @description setter function to set phone number
+     * @param phoneNUmber 
+     */
     setPhoneNumber(phoneNUmber: string) {
-
         this.phoneNumber = phoneNUmber;
     }
 
+    /**
+     * @description function to register a new user
+     */
     registration() {
+
+        /** read addressbook file */
         var addressBook = utility.getDataFromJson2();
-        console.log("\nWelcome to User's Registration ")
+
+        console.log("\nWelcome to User's Registration ");
+
         try {
 
+            /** asking user's first name */
             console.log("\nPlease Enter your first name: ");
+            /** storing first name  */
             var firstName = utility.getString();
 
+            if (firstName == "") throw "\nfirst name required , empty string found"
+
             console.log("\nEnter your last name: ");
+            /** storing last name */
             var lastName = utility.getString();
 
+            if (lastName == "") throw "\nlast name required , empty string found"
+
             console.log("\nEnter your permanent Address (stick to house number , area): ");
+            /** storing address */
             var address = utility.getString();
 
+            if (address == "") throw "\naddress required , empty string found"
+
             console.log("\nEnter the City you live in: ");
+            /** storing city */
             var city = utility.getString();
 
+            if (city == "") throw "\ncity required , empty string found"
+
             console.log("\nEnter State ");
+            /** storing state */
             var state = utility.getString();
 
+            if (state == "") throw "\nstate required , empty string found"
+
             console.log("\nEnter ZipCode(6 digits only) ");
+            /** storing zipcode */
             var zipcode = utility.getInteger();
 
             if (zipcode.length != 6) throw "Invalid input for zipcode , It must be of 6 digits only"
+            if (zipcode == "") throw "\nzipcode required , empty string found"
 
             console.log("\nEnter your personal Phone Number(10 digits): ");
             var phoneNumber = utility.getInteger();
 
             if (phoneNumber.length != 10) throw "Invalid input for phone number , It should be of 10 digits only"
+            if (phoneNumber == "") throw "\nphone number required , empty string found"
 
+            /**
+             * calling setter function to set values for all fields (firstname , lastnaame , address,city ,state ,zipcode, phone number)
+             */
             this.setFirstName(firstName),
                 this.setLastName(lastName),
                 this.setAddress(address),
@@ -124,9 +260,13 @@ class AddressBook {
                 this.setZipcode(zipcode),
                 this.setPhoneNumber(phoneNumber)
 
-
+            /**
+             * user object to store values
+             */
             var user = {
-
+                /**
+                 * storing values using getter functions
+                 */
                 firstname: this.getFirstName(),
                 lastname: this.getLastName(),
                 address: this.getAddress(),
@@ -137,130 +277,227 @@ class AddressBook {
             }
 
 
-
+            /** push values to json file */
             addressBook.users.push(user);
 
             console.log("\nYou are done with filling entries.\nWant to save now? Press 1 \nBack to main menu Press 2 \ndone exploring? Press 3 to leave ");
-            var reply = utility.getInteger();
+            var reply = utility.getString();
             try {
 
-                if (reply < 1 || reply > 2) throw "\nInvalid input , Choose between 1 and 2"
-                if (reply == "" || isNaN(reply)) throw "\nNo input found , Choose between 1 and 2"
+                /** validating user's input */
+                if (reply == "") throw "\nInvalid input , Choose between 1 and 2"
 
+                /** conditionals to handle user request*/
                 if (reply == '1') {
+
+                    /** call function to update the addrsss book */
                     this.updateAddressBook(addressBook);
+
                     console.log("\nThanks for registring with us..\nRegistration done!\nYour Information has been successfully saved !");
 
-                    console.log("\nPress 1 to go back to the main menu\ndone exploring? Press 2 to leave");
+                    console.log("\nPress 1 to go back to the main menu\ndone exploring? Press 2 to leave ");
+
                     var reply2 = utility.getString();
+
+                    if (reply2 == "") throw "\nInvalid input , Choose between 1 and 2"
+
                     if (reply2 == '1') {
+                        /** call function to handle user request */
                         askUser()
+
                     } else {
+                        /** leave the application */
                         this.leave();
                     }
+
                 } else
+                    /** conditionals to handle user request */
                     if (reply == '2') {
+                        /** call function to handle user request */
                         askUser();
                     } else {
+
                         console.log("\nHope you had a good experience.. \nSee you soon !!");
                         this.leave();
+
                     }
+                /** handling exceptions */
             } catch (err) {
+
                 console.log(err);
                 console.log("\nredirecting to registration......")
+                /** calling registration again */
                 this.registration();
+
             }
 
         } catch (err) {
+
             console.log(err);
-            console.log("\nredirecting to registration......")
+            console.log("\nredirecting to registration......");
+            /**calling registration function */
             this.registration();
+
         }
     }
 
+    /**
+     * @description function to update addressbook
+     * @param {string} addressBook 
+     */
     updateAddressBook(addressBook: string) {
-
+        /**
+         * writing to the file
+         */
         fs.writeFileSync('../jsonFiles/addressBook.json', JSON.stringify(addressBook));
 
     }
+    /**
+     * @description function to exit the process
+     */
     leave() {
         console.log("\nleaving the app....")
         console.log("\nHope you had a good experience.. \nSee you soon !!");
         process.exit();
     }
+
+    /**
+     *@description function to handle user 
+     */
     purposeOfUser() {
+
         console.log("___------USER`S DASHBOARD------___");
         console.log("\nHello User !!\nBefore you proceed furthur \nthere is some verfication which needs to be done for security purpose..\nIt will take few minutes");
         console.log("\nEnter your personal mobile number used during registration");
-        var reply = utility.getInteger();
 
-        if (this.verifyUser(reply)) {
-            console.log("\nYour verification has been successfully done..");
-            console.log("Tell us how can we help you ?");
-            console.log("We can help you in editing your data or deleting it\nPress 1 to edit\nPress 2 to delete");
-            var reply2 = utility.getString();
+        try {
 
-            if (reply2 == '1') {
-                this.editUserData(reply);
+            var reply = utility.getString();
+
+            if (reply == "") throw "phone number required , no value found"
+
+            /** varifying user */
+            if (this.verifyUser(reply)) {
+
+                console.log("\nYour verification has been successfully done..");
+                console.log("Tell us how can we help you ?");
+                console.log("We can help you in editing your data or deleting it\nPress 1 to edit\nPress 2 to delete");
+
+                var reply2 = utility.getString();
+
+                /** validating user's reply */
+                if (reply2 == "") throw "choose between 1 and 2"
+                if (reply2 != '1' || reply2 != '2') throw "choose between 1 and 2"
+
+                /** conditionals to handle user request */
+                if (reply2 == '1') {
+
+                    /** calling edit function */
+                    this.editUserData(reply);
+
+                } else {
+
+                    /** calling function to delete user */
+                    this.deleteUser(reply);
+                }
+
             } else {
-                this.deleteUser(reply);
+                console.log("Phone number Invalid")
             }
-        } else {
-            console.log("Phone number Invalid")
-        }
 
+        } catch (err) {
+
+            console.log(err);
+            this.purposeOfUser();
+
+        }
     }
 
-    verifyUser(phoneNumber: string) {
+    /**
+     * @description function to verify user
+     * @param {string} phoneNumber 
+     * @returns {boolean} true or false
+     */
+    verifyUser(phoneNumber: string): boolean {
+
+        /** reading addressbook file */
         var content = utility.getDataFromJson2();
 
+        /** look for the phone number to verify user */
         for (let i = 0; i < content.users.length; i++) {
+
             if (content.users[i].contact == phoneNumber) {
+
                 return true;
             }
-
         }
+        /** phone number not found */
         return false;
-
     }
+
+    /**
+     * @description function to edit user data
+     * @param {string} phoneNumber 
+     */
     editUserData(phoneNumber: string) {
 
+        /** read addressbook file */
         var content = utility.getDataFromJson2();
         var index;
+
+        /** looking for contact details */
         for (let i = 0; i < content.users.length; i++) {
 
             if (content.users[i].contact === phoneNumber) {
                 index = content.users.indexOf(content.users[i]);
             }
         }
-        console.log(index);
 
+        /** printing found user data */
         console.log("\nhi " + content.users[index].firstname + "\nYou can see your data below");
         console.log(content.users[index]);
 
-        console.log("\nEnter value of the field you want to update: ");
-        var reply = utility.getString();
+        try {
+            console.log("\nEnter value of the field you want to update: ");
 
-        if (reply in content.users[index]) {
+            var reply = utility.getString();
 
-            console.log("\n What would you like to change it to?");
-            var reply2 = utility.getString();
+            if (reply in content.users[index]) {
 
-            content.users[index][reply] = reply2;
+                console.log("\n What would you like to change it to?");
+                var reply2 = utility.getString();
+           
+                if(reply2 == "")throw "some value is expected , found no input"
 
-            this.updateAddressBook(content);
-        } else {
-            console.log("field not found");
+                content.users[index][reply] = reply2;
+
+                this.updateAddressBook(content);
+            } else {
+                console.log("field not found");
+            }
+
+        } catch (err) {
+
+            console.log(err);
+            this.editUserData(phoneNumber);
         }
     }
-
+    
+    /**
+     * @description function to handle delete user request
+     * @param {string} phoneNumber 
+     */
     deleteUser(phoneNumber: string) {
-
+       
+        /** read addressbook file */
         var content = utility.getDataFromJson2();
+
         var index;
+
         for (let i = 0; i < content.users.length; i++) {
 
             if (content.users[i].contact === phoneNumber) {
+                /** find index of required usee */
                 index = content.users.indexOf(content.users[i]);
             }
         }
@@ -273,7 +510,6 @@ class AddressBook {
 
         try {
 
-            //if (reply < 1 || reply > 3) throw "\nInvalid input , Choose between 1 ,2 and 3"
             if (reply == "" || isNaN(reply)) throw "\nNo input found , Choose between 1 ,2 and 3"
 
 
@@ -308,16 +544,23 @@ class AddressBook {
             this.purposeOfUser();
         }
     }
-
+    
+    /**
+     * @description sort file by name
+     */
     sortByName() {
+
+        /** read users file */
         var content = utility.getDataFromJson2();
-
+        
+        /** storing data in obj */
         var obj = content.users;
-
+        
+        /** calling sort to sort data */
         obj.sort(
 
             function (a: any, b: any) {
-
+                
                 if (a.firstname == b.firstName)
                     return 0;
 
@@ -329,14 +572,23 @@ class AddressBook {
             }
 
         )
+
+        /** calling function to update the data */
         this.updateAddressBook(content);
         var data = utility.getDataFromJson2();
         console.log("\n", data);
     }
-
+    
+    /**
+     * @description function to sort by zipcode
+     */
     sortByZip() {
+
+        /** reading user file */
         var content = utility.getDataFromJson2();
         var obj = content.users;
+
+        /** calling sort function */
         obj.sort(
 
             function (a: any, b: any) {
@@ -352,12 +604,17 @@ class AddressBook {
             }
 
         )
+
+        /** calling function to update addressbook */
         this.updateAddressBook(content);
+
         var data = utility.getDataFromJson2();
         console.log("\n", data);
 
     }
-
+    /**
+     * @description owner function to sort data
+     */
     ownerPage() {
 
         console.log("\n---Welcome to Owner's Dashboard---");
@@ -384,12 +641,15 @@ class AddressBook {
 var str = "This address book holds a collection of entries. \nEach recording a person's \nFirst and Last names \nAddress \nCity \nState \nZip \nand Phone number";
 var addressBook = new AddressBook();
 
+/**
+ * @description main function to execute the program
+ */
 function askUser() {
     console.log("\n----------------***ADDRESS BOOK***----------------\n" + str);
 
     console.log("\nAlready registered ? Enter 1  \nNew User ? Enter 2 to register \nEnter 3 to stop exploring \nEnter 4 Owner Login");
     var reply = utility.getInteger();
-    reply = Number(reply);
+    
     try {
         if (reply < 1 || reply > 2) throw "\nInvalid input , Choose between 1 and 2"
         if (reply == "" || isNaN(reply)) throw "\nNo input found , Choose between 1 and 2"
@@ -410,4 +670,5 @@ function askUser() {
         askUser();
     }
 }
+/** calling askUser() to execute the program */
 askUser();

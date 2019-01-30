@@ -1,4 +1,3 @@
-"use strict";
 var utility = require('../Utility/Utility');
 var fs = require("fs");
 var utility = new utility();
@@ -6,50 +5,98 @@ var pricePerKg = [120, 190, 80];
 var out = 0, count = 0;
 var flag = 0;
 var userName = "";
-//var coldStore = any[];
+/**
+ * @description class AddressBook
+ *
+ * @class AddressBook
+ * @purpose This programme to maintain an address book. An address book
+ * holds a collection of entries, each recording a person's first and last names, address, city, state, zip, and
+ * phone number.
+ */
 var Inventory = /** @class */ (function () {
     function Inventory() {
+        /**
+         * instance member item of string type
+         * @access private
+         */
         this.item = "";
+        /**
+        * instance member quantity of number type
+        * @access private
+        */
         this.quantity = 0;
+        /**
+        * instance member price of number type
+        * @access private
+        */
         this.price = 0;
+        /** a array to store presnt cart item */
         this.coldStore = [];
     }
+    /**
+     * @description getter function to return item type
+     * @returns {string} first name
+     */
     Inventory.prototype.getItemType = function () {
         return this.item;
     };
+    /**
+     * @description setter function to set item type
+     * @param {string} item
+     */
     Inventory.prototype.setItemType = function (item) {
         this.item = item;
     };
+    /**
+      * @description getter function to return quantity
+      * @returns {string} quantity
+      */
     Inventory.prototype.getItemQuantity = function () {
         return this.quantity;
     };
+    /**
+     * @description setter function to set item's quantity
+     * @param {number} quantity
+     */
     Inventory.prototype.setItemQuantity = function (quantity) {
         this.quantity = quantity;
     };
+    /**
+     * @description getter function to return first name
+     * @returns {string} first name
+     */
     Inventory.prototype.getItemPrice = function () {
         return this.price;
     };
+    /**
+     * @description setter function to set item's price
+     * @param {number} price
+     */
     Inventory.prototype.setItemPrice = function (price) {
         this.price = price;
     };
+    /**
+     * @description function to purchase item
+     */
     Inventory.prototype.purchase = function () {
         if (out == 0) {
             console.log("Please , Enter your name: ");
+            /** storing name in userName */
             userName = utility.getString();
             userName = userName.trim();
             out++;
         }
         try {
+            /** validating user name */
             if (userName == "")
                 throw "No input found";
             console.log("hi " + userName + " What do you need today ? ");
             console.log("\n 1. Rice \n 2. Pulses \n 3. Wheat ");
-            var item = utility.getInteger();
+            var item = utility.getString();
             try {
-                if (isNaN(item))
+                if (item == "")
                     throw "No input or String found , Please Enter a value in range 1-3";
-                if (item < 1 || item > 3)
-                    throw "Please Enter a value in range 1-3";
+                // if (number(item) < 1 || item > 3) throw "Please Enter a value in range 1-3";
                 var nameOfItem = "";
                 switch (item) {
                     case '1':
@@ -65,7 +112,11 @@ var Inventory = /** @class */ (function () {
                 console.log("How much of " + nameOfItem + " do you want ?" + "\n Please Enter quantity in Kgs ");
                 var quantity = utility.getInteger();
                 //quantity = Number(quantity.trim());
+                /** creating obejct of type store */
                 var store = new Inventory();
+                /**
+                 * calling setter functions to set item , quantity and price
+                 */
                 store.setItemType(nameOfItem);
                 store.setItemQuantity(quantity);
                 store.setItemPrice(pricePerKg[item - 1]);
@@ -93,6 +144,9 @@ var Inventory = /** @class */ (function () {
         }
         userInterface();
     };
+    /**
+     * @description function to ask user if he is done shopping
+     */
     Inventory.prototype.ask = function () {
         console.log("");
         console.log("Are you done for the day?");
@@ -115,9 +169,12 @@ var Inventory = /** @class */ (function () {
             this.ask();
         }
     };
+    /**
+     * @description function to view items added to cart
+     */
     Inventory.prototype.viewCart = function () {
         if (flag == 0) {
-            console.log("Your cart is Empty... Redirecting to the purchase page ");
+            console.log("\nYour cart is Empty... Redirecting to the purchase page ");
             this.purchase();
         }
         else {
@@ -128,8 +185,11 @@ var Inventory = /** @class */ (function () {
             userInterface();
         }
     };
+    /**
+     * @description function to exit application
+     */
     Inventory.prototype.exitNow = function () {
-        console.log("exiting now.....");
+        console.log("\nexiting now.....");
         process.exit();
     };
     Inventory.prototype.generateBill = function () {
@@ -237,25 +297,42 @@ var Inventory = /** @class */ (function () {
     };
     return Inventory;
 }());
+/** creating inventory object to perform operations */
 var inventory = new Inventory();
+/**
+ * @description
+ */
 function userInterface() {
     console.log("*****Welcome to the Inventory*****");
     console.log("What would you like to do?");
     console.log("\n 1.Purchase \n 2.View Cart \n 3. Delete Saved item  \n 4. Exit");
-    var answer = utility.getString();
-    switch (answer) {
-        case '1':
-            inventory.purchase();
-            break;
-        case '2':
-            inventory.viewCart();
-            break;
-        case '3':
-            inventory.Delete();
-            break;
-        case '4':
-            inventory.exitNow();
-            break;
+    try {
+        var answer = utility.getString();
+        if (answer == "")
+            throw "no input found";
+        if (answer != ('1' || '2' || '3' || '4'))
+            throw "choose from 1-4";
+        /**
+         * switch for different services
+         */
+        switch (answer) {
+            case '1':
+                inventory.purchase();
+                break;
+            case '2':
+                inventory.viewCart();
+                break;
+            case '3':
+                inventory.Delete();
+                break;
+            case '4':
+                inventory.exitNow();
+                break;
+        }
+    }
+    catch (err) {
+        console.log(err);
+        userInterface();
     }
 }
 userInterface();

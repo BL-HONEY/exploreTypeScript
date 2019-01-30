@@ -3,7 +3,7 @@ var q = require('../../Utility/Queue');
 
 class Player {
     /**
-     * sort function to sort cards
+     * @description sort function to sort cards
      * @param {Array} distributed 
      */
     sort(distributed : any[]) {
@@ -64,7 +64,7 @@ class Player {
         return store;
     }
     /**
-     * Function to Shuffle & Distribute cards to the players.
+     * @description Function to Shuffle & Distribute cards to the players.
      */
     shuffle() {
 
@@ -143,7 +143,7 @@ class Player {
  */
 function play() {
 
-    // Creating a new Player object.
+     //Creating a new Player object.
     var p = new Player();
 
     // Calling shuffle() function and storing the output in qq.
