@@ -36,6 +36,15 @@
             "state": "maharastra",
             "zipcode": "761290",
             "contact": "9867091232"
+        },
+        {
+            "firstname": "shubham",
+            "lastname": "kumar",
+            "address": "vashi",
+            "city": "mumbai",
+            "state": "mahrastra",
+            "zipcode": "234312",
+            "contact": "9087123409"
         }
     ]
 }

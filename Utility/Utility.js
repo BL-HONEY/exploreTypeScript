@@ -133,6 +133,118 @@ var Utility = /** @class */ (function () {
         var content = JSON.parse(data);
         return content;
     };
+    Utility.prototype.deckOfCards = function () {
+        /**
+         * Declaring rank in sorted format for all number cards
+         */
+        var rank = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"];
+        /**
+         * declaring symbols for suits
+         */
+        var symbol = ["♣", "♦", "♥", "♠"];
+        /**
+         * 4 elements array to store cards for 4 persons
+         */
+        var distributed = new Array(4);
+        /**
+         * loop to add 9 element to each element of distributed array
+         */
+        for (var i = 0; i < distributed.length; i++) {
+            distributed[i] = new Array(9);
+        }
+        /**
+         *  array included to store cards
+         */
+        var included = [], index = 0;
+        /**
+         * variables row and column to store the random number generated for rows and column..
+         */
+        var row = 0, column = 0;
+        for (var i_1 = 0; i_1 < distributed.length; i_1++) {
+            for (var j_1 = 0; j_1 < distributed[i_1].length; j_1++) {
+                /**
+                 * Generate random values for row & column
+                 */
+                column = Math.floor(Math.random() * rank.length);
+                row = Math.floor(Math.random() * symbol.length);
+                /**
+                 * Conditional to check whether row and colomn are already included
+                 */
+                if (!included.includes(row + " " + column)) {
+                    /**
+                     * If true, then add them to distributed array
+                     */
+                    distributed[i_1][j_1] = rank[column] + " " + symbol[row];
+                    /**
+                     * store row and column value to included array
+                     */
+                    included[index++] = row + " " + column;
+                }
+                else {
+                    /**
+                    * If included array doesnt include that values for row and coloumn, decrement j
+                    */
+                    j_1--;
+                }
+            }
+        }
+        var str = "", split1, split2;
+        var count = 0;
+        for (var i = 0; i < distributed.length; i++) {
+            /**
+             * sorting and storing to distributed array
+             */
+            distributed[i].sort(
+            /**
+        * function to perform sort
+        * @param {Number} a
+        * @param {NUmber} b
+        */
+            function (a, b) {
+                /**
+            * split every column to store it to split11 and split2
+            */
+                split1 = a.split(" ");
+                split2 = b.split(" ");
+                count++;
+                if (Number(split1[0]) < Number(split2[0])) {
+                    // If yes, returning -1.
+                    return -1;
+                }
+                else {
+                    // If yes, returning 1.
+                    return 1;
+                }
+            });
+            str += "Player " + (i + 1) + ": ";
+            console.log("count= " + count);
+            // For loop will run till columns of 'card' array to print the array
+            for (var j = 0; j < distributed[i].length; j++) {
+                /**
+                 * Validating & Replacing card present at 'i' & 'j' index of 'card'.
+                 * 11 with 'Jack', 12 with 'Queen', 13 with 'King' & 14 with 'Ace'.
+                 */
+                if (distributed[i][j].split(' ')[0] == 11) {
+                    distributed[i][j] = distributed[i][j].replace(/11/g, '☻ Jack');
+                }
+                else if (distributed[i][j].split(' ')[0] == 12) {
+                    distributed[i][j] = distributed[i][j].replace(/12/g, '◕‿◕   Queen');
+                }
+                else if (distributed[i][j].split(' ')[0] == 13) {
+                    distributed[i][j] = distributed[i][j].replace(/13/g, '☹  King');
+                }
+                else if (distributed[i][j].split(' ')[0] == 14) {
+                    distributed[i][j] = distributed[i][j].replace(/14/g, '▲ Ace');
+                }
+                /**
+                 * Adding each element to be printed as a string
+                 */
+                str += distributed[i][j] + ", ";
+            }
+            console.log(str);
+            str = "";
+        }
+    };
     return Utility;
 }());
 module.exports = Utility;

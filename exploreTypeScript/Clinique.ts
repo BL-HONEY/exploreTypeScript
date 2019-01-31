@@ -1,7 +1,10 @@
+/** requiring utility class */
 var utility = require('../Utility/Utility');
 
+/** create obejct of utility class */
 var utility = new utility();
 
+/** including file sysytem module */
 var fs = require("fs");
 
 /***************************************************************************** 
@@ -12,7 +15,7 @@ var fs = require("fs");
 *                    both). It manages Patients by Name, ID, Mobile Number and Age. The Program allows
 *                    users to search Doctor by name, id, Specialization or Availability..
 * 
-*  @description    
+*  @description      
 * 
 *  @file           : Clinique.ts
 *  @overview       : programme is used to manage a list of
@@ -21,7 +24,7 @@ var fs = require("fs");
 *
 *  @author         : Honey 
 *  @version        : 1.0
-*  @since          : 28-01-2019
+*  @since          : 31-01-2019
 *
 ******************************************************************************/
 /**

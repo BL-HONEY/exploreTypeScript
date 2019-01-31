@@ -28,11 +28,11 @@ class CompanyShares {
     * @access private
     */
     private name : string = "";
-
+ 
    /**
     * instance member symbol of string type 
     * @access private
-    */ 
+    */
     private symbol : string = "";
 
    /**

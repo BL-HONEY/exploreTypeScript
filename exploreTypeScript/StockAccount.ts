@@ -1,9 +1,34 @@
+/**************************************************************************************** 
+* 
+*  Purpose         : StockAccount implements a data type that
+*                     might be used by a financial institution to keep track of customer information. 
+* 
+*  @description    
+* 
+*  @file           : StockAccount.ts
+*  @overview       : StockAccount implements a data type that
+*                    might be used by a financial institution to keep track of customer information.  
+*
+*  @author         : Honey 
+*  @version        : 1.0
+*  @since          : 29-01-2019
+*
+******************************************************************************/
 //import CompanyShares = require("./CompanyShares");
+/** requiring utility class */
 var utility = require('../Utility/Utility');
 
 var company = require('./CompanyShares');
+
+/** create obejct of utility class */
 var utility = new utility();
 
+/**
+ * @description class StockAccount
+ * 
+ * @class StockAccount
+ * @purpose  contains variable functions such as buy() , sell() etc.
+ */
 class StockAccount {
 
     name: string;
@@ -11,7 +36,12 @@ class StockAccount {
     constructor(name: string) {
         this.name = name;
     }
-
+    
+    /**
+     * @description function to buy shares
+     * @param {number} amount 
+     * @param {string} symbol 
+     */
     buy(amount: number, symbol: string) {
         var content = utility.getDataFromJson1("company");
 
@@ -54,6 +84,12 @@ class StockAccount {
             askViewer();
         }
     }
+
+    /**
+     * @description function to sell shares
+     * @param amount 
+     * @param symbol 
+     */
     sell(amount: number, symbol: string) {
 
         try {
@@ -96,8 +132,6 @@ class StockAccount {
                 dateContent.dates.push(content.users[index].time);
                 utility.writeInJson("date", dateContent);
 
-
-
             }
         } catch (err) {
 
@@ -106,7 +140,10 @@ class StockAccount {
 
         }
     }
-
+    
+    /**
+     * @description print report function
+     */
     printReport() {
 
         var content = utility.getDataFromJson1("user");
@@ -130,7 +167,11 @@ class StockAccount {
         this.valueOf();
         process.exit();
     }
-
+    
+    /**
+     * @description functin to find value og stock
+     * @returns 
+     */
     valueOf() {
 
         var content = utility.getDataFromJson1('user');
@@ -316,14 +357,19 @@ function displayCompanies() {
     }
 }
 
+/**
+ * @description function to handle viewer
+ */
 function askViewer() {
 
     console.log("\nEnter 1 for Company\nEnter 2 for Customer");
+    
+    /** store user input */
     var answer: string = utility.getString();
 
     try {
         if (answer == "") throw "\nNo input found , Choose between 1 and 2"
-
+        if(answer != ('1' || '2')) "\nInvalid input , Choose between 1 and 2"
         if (answer == '1') {
             console.log("\nNew here? Press 1\nAlready registered? Press 2");
             var answer2 = utility.getString();
@@ -342,5 +388,8 @@ function askViewer() {
     }
 }
 
+/**
+ * calling askViewer to execute the code
+ */
 askViewer();
 export = StockAccount;

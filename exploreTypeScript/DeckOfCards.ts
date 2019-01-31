@@ -16,8 +16,8 @@ class Player {
 
             /**
              * function to perform sort
-             * @param {Number} a 
-             * @param {NUmber} b 
+             * @param {number} a 
+             * @param {number} b 
              */
             function (a, b) {
 

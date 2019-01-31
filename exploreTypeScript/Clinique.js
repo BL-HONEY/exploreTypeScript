@@ -1,6 +1,29 @@
+/** requiring utility class */
 var utility = require('../Utility/Utility');
+/** create obejct of utility class */
 var utility = new utility();
+/** including file sysytem module */
 var fs = require("fs");
+/*****************************************************************************
+*
+*  Purpose         : programme is used to manage a list of
+*                    Doctors associated with the Clinique. This also manages the list of patients who use the
+*                    clinique. It manages Doctors by Name, Id, Specialization and Availability (AM, PM or
+*                    both). It manages Patients by Name, ID, Mobile Number and Age. The Program allows
+*                    users to search Doctor by name, id, Specialization or Availability..
+*
+*  @description
+*
+*  @file           : Clinique.ts
+*  @overview       : programme is used to manage a list of
+*                    Doctors associated with the Clinique. This also manages the list of patients who use the
+*                    clinique. It manages Doctors by Name, Id, Specialization and Availability (AM, PM or both).
+*
+*  @author         : Honey
+*  @version        : 1.0
+*  @since          : 31-01-2019
+*
+******************************************************************************/
 /**
  * @description class Clinique
  *
@@ -86,13 +109,16 @@ var Clinique = /** @class */ (function () {
             console.log("Enter your phone number: ");
             /** variable to store patient's phone number */
             var phoneNum = utility.getInteger();
-            console.log("length: ", phoneNum.toString().length);
-            // if(phoneNum.toString.length != 10)throw "Phone number must be of 10 digits"
+            /** validating phone number */
+            if (phoneNum.toString().length != 10)
+                throw "Phone number must be of 10 digits";
             if (phoneNum.toString() == "")
                 throw "Phone number expected";
             console.log("Enter your age: ");
             /** varaible to store patient's age */
             var uAge = utility.getInteger();
+            if (uAge.toString() == "")
+                throw "Age can't be left unfilled";
             /**
              * calling setter function to set patient details
              */
@@ -144,34 +170,38 @@ var Clinique = /** @class */ (function () {
      * @param {number} pId
      */
     Clinique.prototype.selectDoctor = function (pId) {
-        /** call function to display all doctors */
-        this.displayAllDoctors();
-        /** store docotors data in docData */
-        var docData = utility.getDataFromJson3('doc');
-        console.log("Choose a Doctor using his/her ID as per your need: ");
-        /** Ask user for doctor ID */
-        var docID = utility.getInteger();
-        /**
-          * exception handling
-          */
         try {
+            /** call function to display all doctors */
+            this.displayAllDoctors();
+            /** store docotors data in docData */
+            var docData = utility.getDataFromJson3('doc');
+            console.log("Choose a Doctor using his/her ID as per your need: ");
+            /** Ask user for doctor ID */
+            var docID = utility.getInteger();
+            /**
+              * exception handling
+              */
             /** check if doctor ID is a valid number type */
+            if (docID.toString() == "")
+                throw "\nDoctor ID can't be left unfilled";
             if (isNaN(docID))
-                throw "Invalid Doctor ID , Choose only from available doctors";
+                throw "\nInvalid Doctor ID , Choose only from available doctors";
             /** check if doctor is a valid one or not */
             if (docID > docData.doctors.length)
-                throw "Entered ID is incorrect , Choose only from the available options ";
+                throw "\nEntered ID is incorrect , Choose only from the available options ";
             /** Ask user for an appointment date */
-            console.log("When do you wish to visit him/her? Please enter a Date(DD/MM/YY): ");
+            console.log("\nWhen do you wish to visit him/her? Please enter a Date(DD/MM/YY): ");
             /** data variable to store appointment date */
             var date = utility.getString();
+            if (date == "")
+                throw "\nDate field can't be left unfilled";
             /** validating date format */
             if (!/\d\d\/\d\d\/\d\d/.test(date))
                 throw "Date format is incorrect , Please enter a Date(DD/MM/YY)";
             /** checking availabitlity of the doctor */
             if (this.checkAvailability(docID, date)) {
                 /** Telling user about doctor's availabilty and asking to confirm booking appointment*/
-                console.log("Doctor is available.. want to book an appointment? ");
+                console.log("\nDoctor is available.. want to book an appointment? ");
                 /** storing  */
                 var reply = utility.getString();
                 var dName = this.getDoctorName(docID);
@@ -183,7 +213,7 @@ var Clinique = /** @class */ (function () {
                 }
             }
             else {
-                console.log("Concerned Doctor is unavailable on your chosen date. Please ,Choose another appointment date..");
+                console.log("\nConcerned Doctor is unavailable on your chosen date. Please ,Choose another appointment date..");
                 this.selectDoctor(pId);
             }
         }
@@ -239,11 +269,13 @@ var Clinique = /** @class */ (function () {
      * @description function to ask user's purpose
      */
     Clinique.prototype.purposeUser = function () {
-        var data = this.displayAllPatients();
-        console.log("Hello User! Choose concerned patient ID if you want to change or previous appointment taken");
-        var patientID = utility.getInteger();
         try {
+            var data = this.displayAllPatients();
+            console.log("\nHello User! Choose concerned patient ID if you want to change or previous appointment taken");
+            var patientID = utility.getInteger();
             /** validating patient ID */
+            if (patientID.toString() == "")
+                throw "Patient Id cant be left unfilled";
             if (isNaN(patientID))
                 throw "Invalid Patient ID , Please , Choose registered one only";
             if (patientID > data)
@@ -313,7 +345,7 @@ function userInput() {
     console.log("Already registered? Choose User else go for Patient \n");
     console.log("\n1. Patient \n2. User\n");
     /** storing viewer's reply in reply variable  */
-    var reply = utility.getInteger();
+    var reply = utility.getString();
     try {
         if (reply == "")
             throw "No input found , Choose between 1 and 2";
